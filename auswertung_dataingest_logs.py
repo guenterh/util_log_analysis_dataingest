@@ -85,9 +85,29 @@ def run_log_analysis():
                 line = content_file.readline()
             cc_classic_dic[file] = " # ".join(message)
 
+    with open("{}_summary_of_all_files.txt".format(str(today)), "a") as result_file:
+
+        result_file.write("results of new data ingest\n\n")
+
+        for key, value in summary_dic.items():
+            result_file.write(key + "  " + value + "\n")
+
+        result_file.write("\nresults of new cbs consumer\n\n")
+
+        for key, value in consumer_dic.items():
+            result_file.write(key + "  " + value + "\n")
+
+
+        result_file.write("\nresults of classic\n\n")
+
+        for key, value in cc_classic_dic.items():
+            result_file.write(key + "  " + value + "\n")
+
+    #todo
+    # keys sortieren
+    # files consumer
+    # per mail verschicken??
     print()
-
-
 
 
 if __name__ == '__main__':
