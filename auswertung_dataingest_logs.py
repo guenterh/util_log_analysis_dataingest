@@ -4,13 +4,13 @@ import string
 import random
 import datetime
 
-#docker_cc = "/swissbib/harvesting/docker.cc/logs"
-#cc_classic = "/swissbib/harvesting/rundir"
-#docker_consumercbs = "/swissbib/harvesting/docker.consumercbs/logging"
+docker_cc = "/swissbib/harvesting/docker.cc/logs"
+cc_classic = "/swissbib/harvesting/rundir_sbucoai1"
+docker_consumercbs = "/swissbib/harvesting/docker.consumercbs/logging"
 
-docker_cc = "docker.cc"
-cc_classic = "cc.classic"
-docker_consumercbs = "docker.consumercbs"
+#docker_cc = "docker.cc"
+#cc_classic = "cc.classic"
+#docker_consumercbs = "docker.consumercbs"
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
  return ''.join(random.choice(chars) for _ in range(size))
