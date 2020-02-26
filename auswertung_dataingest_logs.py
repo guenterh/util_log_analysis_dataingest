@@ -4,6 +4,7 @@ import string
 import random
 import datetime
 
+
 docker_cc = "/swissbib/harvesting/docker.cc/logs"
 cc_classic = "/swissbib/harvesting/rundir_sbucoai1"
 docker_consumercbs = "/swissbib/harvesting/docker.consumercbs/logging"
@@ -17,6 +18,8 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 def run_log_analysis():
     today =  datetime.date.today()
+
+    yesterday = today + datetime.timedelta(days=-1)
 
     #start with docker.cc
     (_, _, filenames) = next(os.walk(docker_cc))
@@ -62,7 +65,7 @@ def run_log_analysis():
     cc_classic_files = list(filter(lambda elem:
                                  elem.find("process.harvesting.log") != -1, filenames))
     cc_classic_dic = {}
-    cc_classic_pattern_date = re.compile("{}.*$".format(today))
+    cc_classic_pattern_date = re.compile("{}.*$".format(yesterday))
 
     for file in cc_classic_files:
         with open(cc_classic+ os.sep + file, "r") as content_file:
@@ -81,6 +84,8 @@ def run_log_analysis():
                             line.find("records to cbs updated") != -1 or
                             line.find("records to cbs (without") != -1):
                     message.append(line)
+                    if line.find("records to cbs (without") != -1:
+                        message.append("\n\n")
 
                 line = content_file.readline()
             cc_classic_dic[file] = " # ".join(message)
