@@ -50,13 +50,17 @@ def run_log_analysis():
     consumer_dic = {}
     consumer_pattern = re.compile("{}.*?number of written messages.*$".format(today))
 
+    topic_pattern = re.compile(".*?from topic: (.*?)$")
+
     for file in consumer_files:
         with open(docker_consumercbs + os.sep + file,"r") as content_file:
 
             line = content_file.readline()
             while line:
                 if consumer_pattern.match(line):
-                    consumer_dic[id_generator()] = line
+                    topic = topic_pattern.match(line).group(1)
+                    #consumer_dic[id_generator()] = line
+                    consumer_dic[topic] = line
 
                 line = content_file.readline()
 
@@ -94,18 +98,18 @@ def run_log_analysis():
 
         result_file.write("results of new data ingest\n\n")
 
-        for key, value in summary_dic.items():
+        for key, value in sorted(summary_dic.items()):
             result_file.write(key + "  " + value + "\n")
 
         result_file.write("\nresults of new cbs consumer\n\n")
 
-        for key, value in consumer_dic.items():
+        for key, value in sorted(consumer_dic.items()):
             result_file.write(key + "  " + value + "\n")
 
 
         result_file.write("\nresults of classic\n\n")
 
-        for key, value in cc_classic_dic.items():
+        for key, value in sorted(cc_classic_dic.items()):
             result_file.write(key + "  " + value + "\n")
 
     #todo
